@@ -78,10 +78,14 @@ class GalagaMicrogame extends WindowContent {
   int spriteSize;
 
   int amntPerGroup = 2;
-  EnemyGroup[] enemyGroups = new EnemyGroup[5];
+  int amtnGroups = 5;
+
+  EnemyGroup[] enemyGroups = new EnemyGroup[amtnGroups];
   ArrayList<ImageElement> projectiles = new ArrayList<ImageElement>();
 
   int startms, timeSpent;
+
+  int enemyCount = amntPerGroup * amtnGroups;
   boolean shipDestroyed = false;
 
   GalagaMicrogame(float x, float y, int w, int h) {
@@ -101,6 +105,7 @@ class GalagaMicrogame extends WindowContent {
     this.startms = millis();
     this.timeSpent = 0;
     this.shipDestroyed = false;
+    this.enemyCount = amntPerGroup * amtnGroups;
 
     for (int i = 0; i < enemyGroups.length; i++) {
       float gx = random(this.pos.x, this.w + this.pos.x - this.spriteSize);
@@ -111,7 +116,7 @@ class GalagaMicrogame extends WindowContent {
 
   void update() {
     float constrainedX = constrain(mouseX, this.pos.x, this.pos.x + this.w - this.ship.w);
-    float constrainedY = constrain(mouseY, this.pos.y, this.pos.y + this.h - this.ship.h);
+    float constrainedY = constrain(mouseY, this.pos.y + this.h - this.ship.h, this.pos.y + this.h - this.ship.h);
     this.ship.pos.set(constrainedX, constrainedY);
 
     for (int i = this.projectiles.size() - 1; i >= 0; i--) {
@@ -141,14 +146,14 @@ class GalagaMicrogame extends WindowContent {
   }
 
   boolean shouldAddScore() {
-    return !this.shipDestroyed;
+    return this.shipDestroyed == false || this.enemyCount == 0;
   }
 
   boolean isDone() {
     int now = millis();
     this.timeSpent = (now - this.startms) / 1000;
 
-    return this.timeSpent > 5 || this.shipDestroyed;
+    return this.timeSpent > 5 || this.shipDestroyed || this.enemyCount == 0;
   }
 
   void draw() {
@@ -162,22 +167,17 @@ class GalagaMicrogame extends WindowContent {
 
     for (int pIndex = this.projectiles.size() - 1; pIndex >= 0; pIndex--) {
       ImageElement projectile = this.projectiles.get(pIndex);
-      boolean projectileHit = false;
-
       for (EnemyGroup g : this.enemyGroups) {
         if (g.enemies.isEmpty()) continue;
         for (int eIndex = g.enemies.size() - 1; eIndex >= 0; eIndex--) {
           ImageElement enemy = g.enemies.get(eIndex);
           if (projectile.isColliding(enemy)) {
             g.enemies.remove(eIndex);
-            projectileHit = true;
+            this.projectiles.remove(pIndex);
+            this.enemyCount--;
             break;
           }
         }
-      }
-
-      if (projectileHit) {
-        this.projectiles.remove(pIndex);
       }
     }
 
