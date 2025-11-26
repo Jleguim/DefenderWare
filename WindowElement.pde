@@ -24,6 +24,18 @@ class WindowElement extends ImageElement {
 
   PVector draggingOffset = new PVector(0, 0);
 
+  WindowElement(float x, float y, float wmult) {
+    super(x, y, (int) (WIN_SPRITE_WIDTH*WIN_SIZE_MULT*wmult), WIN_SPRITE_HEIGHT*WIN_SIZE_MULT, WIN_SPRITE_FILE);
+
+    float buttonsY = this.pos.y + this.scaleY;
+    float buttonsX = this.pos.x + this.w + (this.scaleX * WIN_BTNS_WIDTH_OFFSET);
+    this.minimizeButton = new GameElement(buttonsX, buttonsY, (int) this.scaleX * WIN_BTN_SIZE, (int) this.scaleY * WIN_BTN_SIZE);
+    this.closeButton = new GameElement(buttonsX + (this.scaleX * WIN_BTN_SIZE), buttonsY, (int) this.scaleX * WIN_BTN_SIZE, (int) this.scaleY * WIN_BTN_SIZE);
+    this.titleBar = new GameElement(this.pos.x, this.pos.y, this.w, (int) this.scaleY * WIN_TITLEBAR_HEIGHT);
+
+    this.contentPos = new PVector(this.pos.x + this.scaleX, this.titleBar.pos.y + this.titleBar.h);
+  }
+
   WindowElement(float x, float y) {
     super(x, y, WIN_SPRITE_WIDTH*WIN_SIZE_MULT, WIN_SPRITE_HEIGHT*WIN_SIZE_MULT, WIN_SPRITE_FILE);
 
