@@ -22,6 +22,7 @@ class GameElement {
 
     fill(0);
     text(this.pos.x + "," + this.pos.y, this.pos.x, this.pos.y-30);
+    text((this.isOver()) ? "hovering" : "idle", this.pos.x, this.pos.y+30);
   }
 
   boolean isOver() {
