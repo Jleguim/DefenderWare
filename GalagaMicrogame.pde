@@ -106,7 +106,6 @@ class GalagaMicrogame extends WindowContent {
     this.timeSpent = 0;
     this.shipDestroyed = false;
     this.enemyCount = amntPerGroup * amtnGroups;
-    this.score = 5;
 
     for (int i = 0; i < enemyGroups.length; i++) {
       float gx = random(this.pos.x, this.w + this.pos.x - this.spriteSize);
@@ -147,11 +146,7 @@ class GalagaMicrogame extends WindowContent {
   }
 
   boolean shouldAddScore() {
-    if (this.enemyCount == 0) {
-      this.score *= 2;
-    }
-
-    return this.shipDestroyed  == false || this.enemyCount == 0;
+    return this.enemyCount == 0;
   }
 
   boolean isDone() {

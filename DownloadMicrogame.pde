@@ -88,15 +88,15 @@ class DownloadMicrogame extends WindowContent {
     image(this.sprites[0], this.pos.x, this.pos.y, this.w, this.h);
 
     fill(255);
-    textSize(30);
+    textSize(30*.8);
     text("peoplefiles", this.pos.x + this.scaleX, this.pos.y + this.scaleY);
-    textSize(50);
+    textSize(50*.8);
     text("Tu archivo está listo", this.pos.x + (this.scaleX * 8), this.pos.y+(this.scaleY*14));
 
     fakeBtn.draw();
     realBtn.draw();
 
-    textSize(24);
+    textSize(24*.8);
     text("Descargar", realBtn.pos.x + (this.scaleX * 7), realBtn.pos.y + (this.scaleY * 2));
     text("Download", fakeBtn.pos.x+ (this.scaleX * 7), fakeBtn.pos.y + (this.scaleY * 2));
 

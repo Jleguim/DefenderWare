@@ -13,7 +13,6 @@ String WIN_SPRITE_FILE = "/sprites/window.png";
 
 class WindowElement extends ImageElement {
   GameElement minimizeButton, closeButton, titleBar;
-  int score = 0;
 
   PVector contentPos;
   WindowContent[] contents = new WindowContent[]{};
@@ -24,8 +23,8 @@ class WindowElement extends ImageElement {
 
   PVector draggingOffset = new PVector(0, 0);
 
-  WindowElement(float x, float y, float wmult) {
-    super(x, y, (int) (WIN_SPRITE_WIDTH*WIN_SIZE_MULT*wmult), WIN_SPRITE_HEIGHT*WIN_SIZE_MULT, WIN_SPRITE_FILE);
+  WindowElement(float x, float y, float wmult, float hmult) {
+    super(x, y, (int) (WIN_SPRITE_WIDTH*WIN_SIZE_MULT*wmult), (int) (WIN_SPRITE_HEIGHT*WIN_SIZE_MULT*hmult), WIN_SPRITE_FILE);
 
     float buttonsY = this.pos.y + this.scaleY;
     float buttonsX = this.pos.x + this.w + (this.scaleX * WIN_BTNS_WIDTH_OFFSET);
@@ -120,7 +119,6 @@ class WindowElement extends ImageElement {
 
   void draw() {
     if (this.isVisible) {
-      text(this.score, this.pos.x, this.pos.y);
       image(this.sprite, this.pos.x, this.pos.y, this.w, this.h);
       if (this.currentContent < this.contents.length) {
         WindowContent content = this.getCurrentContent();
@@ -128,7 +126,7 @@ class WindowElement extends ImageElement {
 
         if (content.isDone()) {
           if (content.shouldAddScore()) {
-            this.score += content.score;
+            playerScore += content.score;
           }
           this.advanceToNextContent();
         }
