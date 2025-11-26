@@ -42,11 +42,12 @@ void setup() {
     WIN_CONTENT_WIDTH * (int) chromeWindow.scaleX,
     WIN_CONTENT_HEIGHT * (int) chromeWindow.scaleY));
 
-  WindowElement debugWindow = apps[1].win;
-  debugWindow.addContent(new GalagaMicrogame(debugWindow.contentPos.x,
-    debugWindow.contentPos.y,
-    WIN_CONTENT_WIDTH * (int) debugWindow.scaleX,
-    WIN_CONTENT_HEIGHT * (int) debugWindow.scaleY));
+  apps[1].win = new WindowElement(0, 0, 1.5);
+  WindowElement antivirusWindow = apps[1].win;
+  antivirusWindow.addContent(new AntivirusContent(antivirusWindow.contentPos.x,
+    antivirusWindow.contentPos.y,
+    WIN_CONTENT_WIDTH * (int) antivirusWindow.scaleX,
+    WIN_CONTENT_HEIGHT * (int) antivirusWindow.scaleY));
 }
 
 void draw() {
@@ -89,12 +90,32 @@ void mouseClicked() {
 }
 
 void mousePressed() {
-  for (AppElement app : apps) {
-    app.win.handleMouseClicked();
+  if (frontWindow != null && frontWindow.isVisible) {
+    if (frontWindow.isOver()) {
+      frontWindow.handleMouseClicked();
+      if (frontWindow.titleBar.isOver()) {
+        frontWindow.handleMousePressed();
+        return;
+      }
+      return;
+    }
+  }
 
-    if (app.win.isVisible && app.win.titleBar.isOver()) {
-      app.win.handleMousePressed();
-      frontWindow = app.win;
+  for (AppElement app : apps) {
+    WindowElement currentWindow = app.win;
+    if (currentWindow.isVisible) {
+
+      if (currentWindow.titleBar.isOver()) {
+        frontWindow = currentWindow;
+        frontWindow.handleMousePressed();
+        return;
+      }
+
+      if (currentWindow.isOver()) {
+        frontWindow = currentWindow;
+        currentWindow.handleMouseClicked();
+        return;
+      }
     }
   }
 }
