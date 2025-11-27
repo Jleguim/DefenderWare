@@ -50,6 +50,18 @@ class DefenderWareGame {
       chromeWindow.contentPos.y,
       WIN_CONTENT_WIDTH * (int) chromeWindow.scaleX,
       WIN_CONTENT_HEIGHT * (int) chromeWindow.scaleY));
+    chromeWindow.addContent(new FileExplorerMicrogame(chromeWindow.contentPos.x,
+      chromeWindow.contentPos.y,
+      WIN_CONTENT_WIDTH * (int) chromeWindow.scaleX,
+      WIN_CONTENT_HEIGHT * (int) chromeWindow.scaleY));
+    chromeWindow.addContent(new SearchMicrogame(chromeWindow.contentPos.x,
+      chromeWindow.contentPos.y,
+      WIN_CONTENT_WIDTH * (int) chromeWindow.scaleX,
+      WIN_CONTENT_HEIGHT * (int) chromeWindow.scaleY));
+    chromeWindow.addContent(new CodeMicroGame(chromeWindow.contentPos.x,
+      chromeWindow.contentPos.y,
+      WIN_CONTENT_WIDTH * (int) chromeWindow.scaleX,
+      WIN_CONTENT_HEIGHT * (int) chromeWindow.scaleY));
 
     apps[1].win = new WindowElement(0, 0, 1.5, 1);
     WindowElement antivirusWindow = apps[1].win;
